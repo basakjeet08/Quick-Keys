@@ -1,7 +1,23 @@
 import useSentence from "../hooks/useSentence";
+import useTimer from "../hooks/useTimer";
 
 function TyperPage() {
   const { input, setInput, sentence, resetState } = useSentence();
+  const { timeLeft, isCompleted, startTimer, resetTimerState } = useTimer({
+    onTimeUp: () => {
+      console.log("Times Up");
+    },
+  });
+
+  const resetPageState = () => {
+    resetState();
+    resetTimerState();
+  };
+
+  const updateInput = (event) => {
+    setInput(event.target.value);
+    startTimer();
+  };
 
   // This function creates the Span elements for each and every word in the sentence
   const createSentenceHtml = () => {
@@ -16,17 +32,22 @@ function TyperPage() {
 
   return (
     <div className="flex-1 flex flex-col gap-8 p-4 w-2/3 items-center justify-center">
+      <p className="font-medium text-2xl text-primary">{timeLeft}</p>
       <p className="font-medium text-2xl">{createSentenceHtml()}</p>
 
       <textarea
         className="p-4 w-full h-36 bg-background outline-primary rounded-lg font-medium text-xl"
         name="input"
         value={input}
-        onChange={(event) => setInput(event.target.value)}
+        onChange={updateInput}
         placeholder="Start Writing Here"
+        disabled={isCompleted}
       />
 
-      <button className="bg-primary px-8 py-3 rounded-lg" onClick={resetState}>
+      <button
+        className="bg-primary px-8 py-3 rounded-lg"
+        onClick={resetPageState}
+      >
         Reset
       </button>
     </div>
