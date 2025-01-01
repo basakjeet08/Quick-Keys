@@ -14,6 +14,7 @@ function useSentence() {
   // Sentence State variables for sentences and inputs
   const [input, setInput] = useState("");
   const [sentence, setSentence] = useState(generateWords());
+  const [correctWords, setCorrectWords] = useState(0);
 
   // Helper State variables for tracking the current word index and the last space
   const [wordIndex, setWordIndex] = useState(0);
@@ -34,10 +35,15 @@ function useSentence() {
     setSentence((prevSentence) => {
       return prevSentence.map((word, index) => {
         if (index === wordIndex) {
+          const isCorrect = inputtedWord === word.word;
+
+          if (isCorrect) {
+            setCorrectWords((prev) => prev + 1);
+          }
+
           return {
             ...word,
-            color:
-              inputtedWord === word.word ? "text-green-500" : "text-red-500",
+            color: isCorrect ? "text-green-500" : "text-red-500",
           };
         }
 
@@ -58,7 +64,7 @@ function useSentence() {
     setLastSpace(input.length - 1);
   }, [input]);
 
-  return { input, setInput, sentence, wordIndex, resetState, checkWord };
+  return { input, setInput, sentence, wordIndex, resetState, correctWords };
 }
 
 export default useSentence;

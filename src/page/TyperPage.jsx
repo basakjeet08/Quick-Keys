@@ -2,7 +2,8 @@ import useSentence from "../hooks/useSentence";
 import useTimer from "../hooks/useTimer";
 
 function TyperPage() {
-  const { input, setInput, sentence, resetState } = useSentence();
+  const { input, setInput, sentence, wordIndex, resetState, correctWords } =
+    useSentence();
   const { timeLeft, isCompleted, startTimer, resetTimerState } = useTimer({
     onTimeUp: () => {
       console.log("Times Up");
@@ -23,7 +24,10 @@ function TyperPage() {
   const createSentenceHtml = () => {
     return sentence.map((currentWord, index) => {
       return (
-        <span key={index} className={currentWord.color}>
+        <span
+          key={index}
+          className={wordIndex === index ? "text-white" : currentWord.color}
+        >
           {`${currentWord.word} `}
         </span>
       );
@@ -32,7 +36,15 @@ function TyperPage() {
 
   return (
     <div className="flex-1 flex flex-col gap-8 p-4 w-2/3 items-center justify-center">
-      <p className="font-medium text-2xl text-primary">{timeLeft}</p>
+      <div className="flex flex-row gap-4 items-center ">
+        <p className="font-medium text-2xl text-primary">
+          Time left : {timeLeft}
+        </p>
+
+        <p className="font-medium text-2xl text-primary">
+          Correct Words : {correctWords}
+        </p>
+      </div>
       <p className="font-medium text-2xl">{createSentenceHtml()}</p>
 
       <textarea
