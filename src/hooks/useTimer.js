@@ -28,7 +28,7 @@ function useTimer({ duration = 60, onTimeUp }) {
     if (timeLeft === 0) {
       setIsRunning(false);
       setIsCompleted(true);
-      onTimeUp();
+      if (onTimeUp) onTimeUp();
       return;
     }
 

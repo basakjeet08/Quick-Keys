@@ -4,11 +4,7 @@ import useTimer from "../hooks/useTimer";
 function TyperPage() {
   const { input, setInput, sentence, wordIndex, resetState, correctWords } =
     useSentence();
-  const { timeLeft, isCompleted, startTimer, resetTimerState } = useTimer({
-    onTimeUp: () => {
-      console.log("Times Up");
-    },
-  });
+  const { timeLeft, isCompleted, startTimer, resetTimerState } = useTimer({});
 
   const resetPageState = () => {
     resetState();
