@@ -2,7 +2,7 @@ import { generate } from "random-words";
 import { useEffect, useState } from "react";
 
 function generateWords() {
-  return generate(40).map((word) => {
+  return generate(15).map((word) => {
     return {
       word: word,
       color: "text-gray-500",
@@ -26,11 +26,20 @@ function useSentence() {
     setWordIndex(0);
     setInput("");
     setLastSpace(0);
+    setCorrectWords(0);
   };
 
   // This function checks if the inputted word is correct or not and change the color accordingly
   const checkWord = (inputtedWord) => {
-    console.log(`word: ${inputtedWord}, index: ${wordIndex}`);
+    if (wordIndex === sentence.length - 1) {
+      if (inputtedWord === sentence[sentence.length - 1]) {
+        setCorrectWords((prev) => prev + 1);
+      }
+
+      setSentence(generateWords());
+      setWordIndex(0);
+      return;
+    }
 
     setSentence((prevSentence) => {
       return prevSentence.map((word, index) => {
